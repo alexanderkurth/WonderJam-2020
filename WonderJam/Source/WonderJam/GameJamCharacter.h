@@ -16,17 +16,26 @@ protected:
 	bool isFighting = false;
 	FTimerHandle MemberTimerHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float maxHealth = 100;
-	float maxFrenesie = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float maxFrenzy = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float health = 100;
-	float frenesie = 25;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float frenzy = 10;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float degats = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float attqSpeed = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float defense = 5;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float volVie = 1;
 
 public:
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isFightAnime = false;
 
 public:
@@ -54,6 +63,15 @@ public:
 		float GetMaxHealth();
 	UFUNCTION(BlueprintCallable)
 		void SetMaxHealth(float vie);
+
+	UFUNCTION(BlueprintCallable)
+		float GetFrenzy();
+	UFUNCTION(BlueprintCallable)
+		void SetFrenzy(float frenesie);
+	UFUNCTION(BlueprintCallable)
+		float GetMaxFrenzy();
+	UFUNCTION(BlueprintCallable)
+		void SetMaxFrenzy(float frenesi);
 
 	UFUNCTION(BlueprintCallable)
 		float GetDegat();

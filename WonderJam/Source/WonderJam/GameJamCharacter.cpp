@@ -63,6 +63,26 @@ void AGameJamCharacter::SetHealth(float vie)
 	this->health += vie;
 }
 
+float AGameJamCharacter::GetFrenzy()
+{
+	return this->frenzy;
+}
+
+void AGameJamCharacter::SetFrenzy(float frenesie)
+{
+	this->frenzy += frenesie;
+}
+
+float AGameJamCharacter::GetMaxFrenzy()
+{
+	return maxFrenzy;
+}
+
+void AGameJamCharacter::SetMaxFrenzy(float frenesi)
+{
+	this->maxFrenzy += frenesi;
+}
+
 float AGameJamCharacter::GetDegat()
 {
 	return degats;
@@ -129,5 +149,6 @@ void AGameJamCharacter::Fight()
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("fight"));
 	//lancer anim
 	//adapter anim a vitesse attaque
+	//verifier les enemy touche ici ou dans enemy?
 	isFightAnime = false;
 }
