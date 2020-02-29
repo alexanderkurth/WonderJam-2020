@@ -2,9 +2,13 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameJamCharacter.generated.h"
+
+
+class UUserWidget;
 
 UCLASS()
 class WONDERJAM_API AGameJamCharacter : public ACharacter
@@ -15,6 +19,7 @@ protected:
 
 	bool isFighting = false;
 	FTimerHandle MemberTimerHandle;
+	FTimerHandle getAgro;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float maxHealth = 100;
@@ -27,6 +32,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float frenzy = 10;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float decreaseFrenzy = 0.5f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float degats = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float attqSpeed = 1;
@@ -35,10 +42,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float volVie = 1;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int point = 10;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isFightAnime = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
+		TSubclassOf<UUserWidget> wMarchand;
+	UPROPERTY()
+		UUserWidget* HUD_Marchand;
 
 public:
 	// Sets default values for this character's properties
@@ -71,6 +86,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetFrenzy(float frenesie);
 	UFUNCTION(BlueprintCallable)
+		float GetDecreaseFrenzy();
+	UFUNCTION(BlueprintCallable)
+		void SetDecreaseFrenzy(float frenesie);
+	UFUNCTION(BlueprintCallable)
 		float GetLimiteFrenzy();
 	UFUNCTION(BlueprintCallable)
 		void SetLimiteFrenzy(float frenesi);
@@ -96,6 +115,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetVolVie(float absorption);
 
+	UFUNCTION(BlueprintCallable)
+		int GetPoint();
+	UFUNCTION(BlueprintCallable)
+		void SetPoint(int addPoint);
+
 #pragma endregion
 
 	UFUNCTION(BlueprintCallable)
@@ -109,5 +133,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void Fight();
+
+	UFUNCTION(BlueprintCallable)
+		void OpenMenuMarchand();
+	UFUNCTION(BlueprintCallable)
+		void CloseMenuMarchand();
 
 };

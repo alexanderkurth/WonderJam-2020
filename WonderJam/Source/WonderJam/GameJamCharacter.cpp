@@ -4,6 +4,8 @@
 #include "GameJamCharacter.h"
 #include "Engine/Engine.h"
 #include "TimerManager.h"
+#include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 
 // Sets default values
 AGameJamCharacter::AGameJamCharacter()
@@ -24,6 +26,10 @@ void AGameJamCharacter::BeginPlay()
 
 	isFightAnime;
 	
+	if(wMarchand)
+		HUD_Marchand =  UUserWidget::CreateWidgetInstance(*this->Controller->CastToPlayerController(), wMarchand, wMarchand.GetDefaultObject()->GetFName());
+
+
 }
 
 // Called every frame
@@ -39,6 +45,7 @@ void AGameJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Attaque", IE_Pressed, this, &AGameJamCharacter::StartFight);
 	PlayerInputComponent->BindAction("Attaque", IE_Released, this, &AGameJamCharacter::StopFight);
+	PlayerInputComponent->BindAction("OpenUpgrade", IE_Pressed, this, &AGameJamCharacter::OpenMenuMarchand);
 }
 
 #pragma region assesseur
@@ -71,6 +78,16 @@ float AGameJamCharacter::GetFrenzy()
 void AGameJamCharacter::SetFrenzy(float frenesie)
 {
 	this->frenzy += frenesie;
+}
+
+float AGameJamCharacter::GetDecreaseFrenzy()
+{
+	return this->decreaseFrenzy;
+}
+
+void AGameJamCharacter::SetDecreaseFrenzy(float frenesie)
+{
+	this->decreaseFrenzy += frenesie;
 }
 
 float AGameJamCharacter::GetLimiteFrenzy()
@@ -133,6 +150,16 @@ void AGameJamCharacter::SetVolVie(float absorption)
 	volVie += absorption;
 }
 
+int AGameJamCharacter::GetPoint()
+{
+	return this->point;
+}
+
+void AGameJamCharacter::SetPoint(int addPoint)
+{
+	this->point += addPoint;
+}
+
 
 #pragma endregion
 
@@ -161,4 +188,17 @@ void AGameJamCharacter::Fight()
 	//adapter anim a vitesse attaque
 	//verifier les enemy touche ici ou dans enemy?
 	isFightAnime = false;
+}
+
+void AGameJamCharacter::OpenMenuMarchand()
+{
+	if (HUD_Marchand)
+		HUD_Marchand->AddToViewport();
+}
+
+void AGameJamCharacter::CloseMenuMarchand()
+{
+	HUD_Marchand->RemoveFromViewport();
+	//UWidgetBlueprintLibrary::SetInputMode_GameOnly(this->GetController()->CastToPlayerController());
+	//UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this->GetController()->CastToPlayerController());
 }
