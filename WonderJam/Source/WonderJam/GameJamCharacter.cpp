@@ -19,16 +19,11 @@ AGameJamCharacter::AGameJamCharacter()
 void AGameJamCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	health = 100;
-
-	isFighting = false;
-
-	isFightAnime;
 	
 	if(wMarchand)
-		HUD_Marchand =  UUserWidget::CreateWidgetInstance(*this->Controller->CastToPlayerController(), wMarchand, wMarchand.GetDefaultObject()->GetFName());
-
+		HUD_Marchand =  UUserWidget::CreateWidgetInstance(*this->Controller->CastToPlayerController(), wMarchand, wMarchand.GetDefaultObject()->GetFName());	
+	if(wPause)
+		HUD_Pause =  UUserWidget::CreateWidgetInstance(*this->Controller->CastToPlayerController(), wPause, wPause.GetDefaultObject()->GetFName());
 
 }
 
@@ -46,6 +41,7 @@ void AGameJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Attaque", IE_Pressed, this, &AGameJamCharacter::StartFight);
 	PlayerInputComponent->BindAction("Attaque", IE_Released, this, &AGameJamCharacter::StopFight);
 	PlayerInputComponent->BindAction("OpenUpgrade", IE_Pressed, this, &AGameJamCharacter::OpenMenuMarchand);
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &AGameJamCharacter::OpenMenuPause);
 }
 
 #pragma region assesseur
@@ -67,7 +63,11 @@ float AGameJamCharacter::GetHealth()
 
 void AGameJamCharacter::SetHealth(float vie)
 {
-	this->health += vie;
+	if (health + vie <= maxHealth)
+		this->health += vie;
+	else this->health = maxHealth;
+
+	Dead();
 }
 
 float AGameJamCharacter::GetFrenzy()
@@ -167,6 +167,7 @@ void AGameJamCharacter::SetPoint(int addPoint)
 void AGameJamCharacter::TakeDammage(float damage)
 {
 	this->health -= damage>defense?(damage - defense):0;
+	Dead();
 }
 
 void AGameJamCharacter::StartFight()
@@ -199,6 +200,22 @@ void AGameJamCharacter::OpenMenuMarchand()
 void AGameJamCharacter::CloseMenuMarchand()
 {
 	HUD_Marchand->RemoveFromViewport();
-	//UWidgetBlueprintLibrary::SetInputMode_GameOnly(this->GetController()->CastToPlayerController());
-	//UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this->GetController()->CastToPlayerController());
+}
+
+void AGameJamCharacter::OpenMenuPause()
+{
+	if (HUD_Pause)
+		HUD_Pause->AddToViewport();
+}
+
+void AGameJamCharacter::ClosePause()
+{
+	HUD_Pause->RemoveFromViewport();
+}
+
+void AGameJamCharacter::Dead()
+{
+	if (this->health > 0)
+		return;
+	//apeler menu de GameOver
 }

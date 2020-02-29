@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "TimerManager.h"
 
 bool UHUDMarchand::Initialize()
 {
@@ -108,6 +109,7 @@ void UHUDMarchand::ReturnUnhover()
 
 #pragma region Up action
 
+//ameliore les degats
 void UHUDMarchand::DegatUpGame()
 {
 	if (player->GetPoint() > 0)
@@ -118,10 +120,15 @@ void UHUDMarchand::DegatUpGame()
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if (player->GetPoint() <= 0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
+//ameliore la vie maximum du joueur
 void UHUDMarchand::MaxVieUpGame()
 {
 	if (player->GetPoint() > 0)
@@ -129,11 +136,16 @@ void UHUDMarchand::MaxVieUpGame()
 		player->SetMaxHealth(MAX_HEALTH);
 		player->SetPoint(COUT_POINT);
 		maxVieValue->SetText(FText::FromString(FString::Printf(TEXT("%.2f + %.2f"), player->GetMaxHealth(), MAX_HEALTH)));
+		/*player->SetHealth(-player->GetMaxHealth());*/
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if (player->GetPoint() <= 0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
 void UHUDMarchand::VolVieUpGame()
@@ -146,8 +158,12 @@ void UHUDMarchand::VolVieUpGame()
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if (player->GetPoint() <= 0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
 void UHUDMarchand::MaxFrenesieUpGame()
@@ -161,8 +177,12 @@ void UHUDMarchand::MaxFrenesieUpGame()
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if(player->GetPoint()<=0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
 void UHUDMarchand::DefenseUpGame()
@@ -175,8 +195,12 @@ void UHUDMarchand::DefenseUpGame()
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if (player->GetPoint() <= 0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
 void UHUDMarchand::BaisseFrenesieUpGame()
@@ -189,8 +213,25 @@ void UHUDMarchand::BaisseFrenesieUpGame()
 		if (pointValue)
 		{
 			pointValue->SetText(FText::FromString(FString::Printf(TEXT("%d"), player->GetPoint())));
+			if (player->GetPoint() <= 0)
+				pointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
 		}
 	}
+	else
+		this->NoPoint();
 }
 
 #pragma endregion
+
+void UHUDMarchand::NoPoint()
+{
+	noPointValue->SetText(FText::FromString("Pas assez de point"));
+	noPointValue->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UHUDMarchand::Callback, 2.f, false);
+}
+
+void UHUDMarchand::Callback()
+{
+	noPointValue->SetText(FText::FromString(""));
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}

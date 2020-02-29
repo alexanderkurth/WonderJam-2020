@@ -7,6 +7,17 @@
 #include "GameFramework/Character.h"
 #include "GameJamCharacter.generated.h"
 
+#define LVL1 10
+#define LVL2 100
+#define LVL3 500
+#define LVL4 1000
+#define LVL5 10000
+#define LVL6 50000
+#define LVL7 100000
+#define LVL8 250000
+#define LVL9 500000
+#define LVL10 1000000
+
 
 class UUserWidget;
 
@@ -19,7 +30,6 @@ protected:
 
 	bool isFighting = false;
 	FTimerHandle MemberTimerHandle;
-	FTimerHandle getAgro;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float maxHealth = 100;
@@ -44,6 +54,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int point = 10;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int xp = 0;
 
 public:
 
@@ -54,6 +66,10 @@ public:
 		TSubclassOf<UUserWidget> wMarchand;
 	UPROPERTY()
 		UUserWidget* HUD_Marchand;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Widgets")
+		TSubclassOf<UUserWidget> wPause;
+	UPROPERTY()
+		UUserWidget* HUD_Pause;
 
 public:
 	// Sets default values for this character's properties
@@ -132,11 +148,19 @@ public:
 		void StopFight();
 
 	UFUNCTION(BlueprintCallable)
-		void Fight();
+	 	void Fight();
 
 	UFUNCTION(BlueprintCallable)
 		void OpenMenuMarchand();
 	UFUNCTION(BlueprintCallable)
 		void CloseMenuMarchand();
+
+	UFUNCTION(BlueprintCallable)
+		void OpenMenuPause();
+	UFUNCTION(BlueprintCallable)
+		void ClosePause();
+
+	UFUNCTION(BlueprintCallable)
+		void Dead();
 
 };

@@ -31,6 +31,8 @@ protected:
 	UPROPERTY()
 		AGameJamCharacter* player;
 
+	FTimerHandle TimerHandle;
+
 public:
 
 	UPROPERTY(meta = (BindWidgetOptional))
@@ -63,8 +65,9 @@ public:
 	UPROPERTY(meta = (BindWidgetOptional))
 		UTextBlock* frenesieValue;
 
-	TArray<UButton*> buttons;
-	int buttonIndex;
+	UPROPERTY(meta = (BindWidgetOptional))
+		UTextBlock* noPointValue;
+
 
 #pragma region couleur interaction
 
@@ -107,5 +110,10 @@ public:
 		void BaisseFrenesieUpGame();
 
 #pragma endregion
+
+	UFUNCTION(BlueprintCallable)
+		void NoPoint();
+
+	void Callback();
 
 };
