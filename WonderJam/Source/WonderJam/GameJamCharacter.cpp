@@ -73,6 +73,16 @@ void AGameJamCharacter::SetFrenzy(float frenesie)
 	this->frenzy += frenesie;
 }
 
+float AGameJamCharacter::GetLimiteFrenzy()
+{
+	return limiteFrenzy;
+}
+
+void AGameJamCharacter::SetLimiteFrenzy(float frenesi)
+{
+	this->limiteFrenzy += frenesi;
+}
+
 float AGameJamCharacter::GetMaxFrenzy()
 {
 	return maxFrenzy;

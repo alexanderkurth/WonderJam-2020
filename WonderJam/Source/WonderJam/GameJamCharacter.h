@@ -19,7 +19,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float maxHealth = 100;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float maxFrenzy = 100;
+	float limiteFrenzy = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float maxFrenzy = 200;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float health = 100;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -68,6 +70,10 @@ public:
 		float GetFrenzy();
 	UFUNCTION(BlueprintCallable)
 		void SetFrenzy(float frenesie);
+	UFUNCTION(BlueprintCallable)
+		float GetLimiteFrenzy();
+	UFUNCTION(BlueprintCallable)
+		void SetLimiteFrenzy(float frenesi);
 	UFUNCTION(BlueprintCallable)
 		float GetMaxFrenzy();
 	UFUNCTION(BlueprintCallable)
